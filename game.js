@@ -23,7 +23,12 @@ $(".btn").on("click", function() {
     }
   }
   else {
-    alert("wrong input. Game over!")
+    playSound("wrong");
+    $("body").addClass("game-over");
+    setTimeout(function() {
+      $("body").removeClass("game-over");
+    }, 200);
+    $("h1").text("Game Over, Press Any Key to Restart");
   }
 });
 
