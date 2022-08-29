@@ -1,4 +1,3 @@
-var userClickedPattern = [];
 var gamePattern = [];
 var buttonColours = ["red", "blue", "green", "yellow"];
 var started = true;
@@ -14,14 +13,13 @@ $(document).on("keydown", function() {
 
 $(".btn").on("click", function() {
   var userChosenColour = $(this).attr("id");
-  // userClickedPattern.push(userChosenColour);
   playSound(userChosenColour);
   animatePress(userChosenColour);
   clickCount++;
   if(checkAnswer(clickCount, userChosenColour)){
     if(clickCount === level) {
       clickCount = 0;
-      nextSequence();
+      setTimeout(nextSequence, 1000);
     }
   }
   else {
