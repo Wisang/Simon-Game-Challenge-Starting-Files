@@ -1,5 +1,6 @@
 var gamePattern = [];
 var buttonColours = ["red", "blue", "green", "yellow"];
+var userClickSequence = [];
 var started = true;
 var level = 0;
 var clickCount = 0;
@@ -13,11 +14,11 @@ $(document).on("keydown", function() {
 
 $(".btn").on("click", function() {
   var userChosenColour = $(this).attr("id");
+  userClickSequence.push(userChosenColour);
   playSound(userChosenColour);
   animatePress(userChosenColour);
-  clickCount++;
-  if(checkAnswer(clickCount, userChosenColour)){
-    if(clickCount === level) {
+  if(checkAnswer(userClickSequence.length-1)){
+    if(userClickSequence.length === level) {
       clickCount = 0;
       setTimeout(nextSequence, 1000);
     }
@@ -35,13 +36,12 @@ $(".btn").on("click", function() {
 
 function startOver() {
   level = 0;
-  clickCount = 0;
   gamePattern = [];
   started = true;
 }
 
-function checkAnswer(level, color) {
-  if(gamePattern[clickCount-1] === color) {
+function checkAnswer(cursor) {
+  if(gamePattern[cursor] === userClickSequence[cursor]) {
     return true;
   }
   return false;
@@ -56,6 +56,7 @@ function animatePress(currentColour) {
 }
 
 function nextSequence() {
+  userClickSequence = [];
   var randomNumber = Math.floor(Math.random() * 4);
   var randomChosenColour = buttonColours[randomNumber];
   gamePattern.push(randomChosenColour);
